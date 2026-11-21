@@ -1,6 +1,6 @@
-# TokenAtlas
+# Our Token
 
-Interactive viewer for supplied audio–visual token-selection figures. Select a video and frame, compare four layers, inspect the OmniZip and Omni-Prune baselines, and download a labeled PNG comparison.
+Interactive viewer for supplied audio–visual token-selection figures. Browse each video and select a frame, compare four layers in one composed image, inspect the OmniZip and Omni-Prune baselines, and download a labeled PNG comparison.
 
 ## Run locally
 
@@ -12,8 +12,9 @@ The supplied visualization collection includes three video IDs, layers 0–27, f
 
 Frame indices refer to the exported figures. Timestamp and overlay-color semantics were not included in the supplied metadata. The site does not compute token masks, clustering, accuracy or attention scores.
 
-The initial comparison shows layers 0–3. Each slot can select any available layer. TokenAtlas is a working display name.
+The initial comparison shows layers 0–3. Each slot can select any available layer. 
 
 ## Hosting
 
 This is a static HTML/CSS/JavaScript site. GitHub Pages can publish the repository's `main` branch from the root directory.
+

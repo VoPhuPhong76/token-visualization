@@ -1,34 +1,10 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Token Atlas · Visual Token Selection</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Our Token — Layer visualization</title><link rel="stylesheet" href="style.css"></head>
 <body>
-  <header class="topbar"><a class="brand" href="#">Token<span>Atlas</span><i></i></a><nav><a href="#explorer">Explore layers</a><a href="#source">Source video</a></nav><span class="research">Visual token selection</span></header>
-  <main>
-    <section class="intro"><p class="eyebrow">AUDIO–VISUAL TOKEN COMPRESSION</p><h1>Same frame.<br><span>Different selections.</span></h1><p class="description">Explore how token selection changes across layers.<br>Compare four views side by side, then export a figure.</p><div class="dataset-info"><span><b>3</b> videos</span><span><b>28</b> layers</span><span><b>4</b> frames per video</span></div></section>
-    <section id="explorer" class="workspace">
-      <aside>
-        <h2>Choose a video</h2><div id="video-list" class="video-list"></div>
-        <section class="source" id="source"><h2>Source video</h2><video id="source-video" controls preload="none" playsinline></video><p>Frame indices follow the exported files.</p></section>
-        <a id="source-pdf" class="pdf-link" target="_blank" rel="noopener">Open full layer figure ↗</a>
-      </aside>
-      <div class="comparison">
-        <div class="section-head"><div><p class="eyebrow">LAYER COMPARISON</p><h2 id="comparison-title"></h2></div><button id="export" class="primary">Download figure <span aria-hidden="true">↓</span></button></div>
-        <div class="frame-control"><span>Frame</span><div id="frames" role="group" aria-label="Choose frame"></div><span class="frame-hint">All four views stay in sync</span></div>
-        <div id="panels" class="panels"></div>
-        <div class="figure-caption"><span>Click an image to inspect it at full size.</span><span>Original visualization overlays</span></div>
-        <div class="baseline-head"><h3>Compare with baselines</h3><span>Same video · same frame</span></div><div id="baselines" class="baselines"></div>
-        <p id="status" class="status" role="status" aria-live="polite"></p>
-      </div>
-    </section>
-    <footer><span>TokenAtlas / Visual exploration</span><p>Figures are supplied research outputs. Overlay colors are preserved from the source images.</p></footer>
-  </main>
-  <dialog id="viewer"><div class="viewer-head"><h2 id="viewer-title"></h2><button id="close-viewer" aria-label="Close image">Close ✕</button></div><img id="viewer-image" alt=""></dialog>
-  <script src="data.js"></script><script src="app.js"></script>
-</body>
-</html>
-
+<header><a href="#" class="brand">Our Token</a><nav aria-label="Videos" id="navigation"></nav></header>
+<main><div class="intro"><h1>Layer visualization</h1><p>Each video is followed by a four-layer comparison of the same frame.</p></div><div id="videos"></div></main>
+<footer>Our Token · Audio–visual token compression</footer>
+<dialog id="viewer"><div class="dialog-head"><span id="viewer-title"></span><button id="close">Close ×</button></div><div class="zoom-scroll"><img id="zoom" alt=""></div><p>Scroll horizontally to inspect the full-resolution figure.</p></dialog>
+<script src="data.js"></script><script src="app.js"></script>
+</body></html>
