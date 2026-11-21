@@ -12,18 +12,19 @@ function loadImage(src) {
 
 window.VIS_DATA.forEach((video) => {
   let frame = video.frames[0];
-  const layers = video.layers.slice(0, 4);
+  let layers = video.layers.slice(0, 4);
   let revision = 0;
   let figureUrl;
   const section = document.createElement('section');
   section.className = 'video-section';
   section.id = video.id;
   section.innerHTML = `
-    <div class="source-row"><div class="source-info"><h2>${video.id}</h2><p>Source video · 4 exported frames · 28 layers</p><a href="assets/vis/all/${video.id}_llm_layers_selection_4f.pdf" target="_blank" rel="noopener">View all layers (PDF)</a></div><video controls playsinline preload="metadata" aria-label="Source video ${video.id}" src="assets/vis/Videos/${video.id}.mp4"></video></div>
-    <div class="controls"><div class="frames" role="group" aria-label="Frame for ${video.id}"><span class="control-label">Frame</span></div><div class="layer-controls"><span class="control-label">Layers</span></div><a class="download" aria-disabled="true">Download image</a></div>
+    <div class="section-heading"><h2>${video.id}</h2><a class="download" aria-disabled="true">Download comparison</a></div>
+    <div class="frames" role="group" aria-label="Frame for ${video.id}"></div>
+    <div class="controls"><span class="control-label">Layers</span><div class="layer-controls" role="group" aria-label="Choose four layers for ${video.id}"></div></div>
     <figure class="figure"><button class="figure-button" aria-label="Enlarge four-layer comparison for ${video.id}" disabled><img class="comparison-image" alt=""></button><figcaption class="caption"><span class="figure-label"></span><span>Click image to enlarge</span></figcaption></figure>
     <p class="status" role="status" aria-live="polite"></p>
-    <details class="baselines"><summary>OmniZip &amp; Omni-Prune comparison</summary><div class="baseline-images"></div></details>`;
+    <div class="supporting"><details class="source"><summary>Watch source video</summary><video controls playsinline preload="none" aria-label="Source video ${video.id}" src="assets/vis/Videos/${video.id}.mp4"></video></details><details class="baselines"><summary>OmniZip &amp; Omni-Prune</summary><div class="baseline-images"></div></details><a class="pdf-link" href="assets/vis/all/${video.id}_llm_layers_selection_4f.pdf" target="_blank" rel="noopener">All layers (PDF)</a></div>`;
   document.getElementById('videos').append(section);
   const navigation = document.createElement('a');
   navigation.href = '#' + video.id;
@@ -37,18 +38,29 @@ window.VIS_DATA.forEach((video) => {
   const status = section.querySelector('.status');
   video.frames.forEach((index) => {
     const button = document.createElement('button');
-    button.textContent = index;
+    const thumbnail = document.createElement('img');
+    thumbnail.src = `assets/vis/${video.id}/layer0_frame${index}.png`;
+    thumbnail.alt = '';
+    const label = document.createElement('span');
+    label.textContent = `Frame ${index}`;
+    button.append(thumbnail, label);
+    button.setAttribute('aria-label', `Frame ${index}`);
     button.dataset.frame = index;
     button.onclick = () => { frame = index; render(); };
     frames.append(button);
   });
-  layers.forEach((layer, slot) => {
-    const select = document.createElement('select');
-    select.setAttribute('aria-label', `${video.id}, layer in column ${slot + 1}`);
-    video.layers.forEach((value) => select.add(new Option(`Layer ${value}`, value, false, value === layer)));
-    select.onchange = () => { layers[slot] = Number(select.value); render(); };
-    controls.append(select);
-  });
+  for (let start = 0; start < video.layers.length; start += 4) {
+    const group = video.layers.slice(start, start + 4);
+    const button = document.createElement('button');
+    button.textContent = `${group[0]}–${group[group.length - 1]}`;
+    button.dataset.firstLayer = group[0];
+    button.setAttribute('aria-label', `Layers ${group.join(', ')}`);
+    button.onclick = () => { layers = group; render(); };
+    controls.append(button);
+  }
+  section.querySelector('.source').ontoggle = (event) => {
+    if (!event.target.open) section.querySelector('video').pause();
+  };
   const baselineImages = video.methods.map((method) => {
     const figure = document.createElement('figure');
     const image = document.createElement('img');
@@ -74,6 +86,7 @@ window.VIS_DATA.forEach((video) => {
     download.setAttribute('aria-disabled', 'true');
     status.textContent = 'Loading comparison…';
     frames.querySelectorAll('button').forEach((button) => button.setAttribute('aria-pressed', Number(button.dataset.frame) === frame));
+    controls.querySelectorAll('button').forEach((button) => button.setAttribute('aria-pressed', Number(button.dataset.firstLayer) === layers[0]));
     baselineImages.forEach(({method, image}) => { image.src = `assets/vis/${video.id}/${method}_frame${frame}.png`; });
     try {
       const images = await Promise.all(selectedLayers.map((layer) => loadImage(`assets/vis/${video.id}/layer${layer}_frame${selectedFrame}.png`)));

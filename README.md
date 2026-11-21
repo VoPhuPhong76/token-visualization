@@ -12,9 +12,10 @@ The supplied visualization collection includes three video IDs, layers 0–27, f
 
 Frame indices refer to the exported figures. Timestamp and overlay-color semantics were not included in the supplied metadata. The site does not compute token masks, clustering, accuracy or attention scores.
 
-The initial comparison shows layers 0–3. Each slot can select any available layer. 
+The initial comparison shows layers 0–3. The layer strip selects consecutive groups of four: 0–3, 4–7, through 24–27. Source videos open on demand below each figure. 
 
 ## Hosting
 
 This is a static HTML/CSS/JavaScript site. GitHub Pages can publish the repository's `main` branch from the root directory.
+
 
