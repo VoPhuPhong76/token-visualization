@@ -1,4 +1,5 @@
 .DS_Store
-vis/
+/vis/
 node_modules/
 *.log
+
